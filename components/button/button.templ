@@ -1,0 +1,22 @@
+package button
+
+import "net/http"
+
+type Props struct {
+	buttonText string
+	callUrl    string
+}
+
+func CreateButton(buttonText string, callUrl string) templ.Component {
+	return button(Props{buttonText: buttonText, callUrl: callUrl})
+}
+
+func init() {
+	http.Handle("/thingy", templ.Handler(button(Props{buttonText: "hellp", callUrl: "/thingy"})))
+}
+
+templ button(props Props) {
+	<button hx-get={ props.callUrl } hx-swap="outerHTML">
+		{ props.buttonText }
+	</button>
+}

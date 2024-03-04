@@ -1,4 +1,4 @@
-module github.com/a-h/templ-examples/hello-world
+module htmx
 
 go 1.22.0
 
