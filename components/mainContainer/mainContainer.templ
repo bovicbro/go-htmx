@@ -2,13 +2,7 @@ package mainContainer
 
 import (
 	"htmx/components/textbox"
-	"net/http"
 )
-
-func init() {
-	http.Handle("/edit", templ.Handler(textbox.New("content", true)))
-	http.Handle("/submit", templ.Handler(textbox.New("content", false)))
-}
 
 templ MainContainer() {
 	<!DOCTYPE html>

@@ -10,14 +10,30 @@ import "context"
 import "io"
 import "bytes"
 
+import "net/http"
+
 type Props struct {
 	content string
 	editing bool
 }
 
+func init() {
+	http.Handle("/edit", templ.Handler(New("content", true)))
+	http.HandleFunc("/submit", postHandler)
+}
+
 func New(content string, editing bool) templ.Component {
 	props := Props{content: content, editing: editing}
 	return textbox(props)
+}
+
+func postHandler(w http.ResponseWriter, r *http.Request) {
+	if r.Method == http.MethodPost {
+		r.ParseForm()
+		if r.Form.Has("input") {
+			templ.Handler(New(r.Form.Get("input"), false)).Component.Render(context.Background(), w)
+		}
+	}
 }
 
 func textbox(p Props) templ.Component {
@@ -50,7 +66,7 @@ func textbox(p Props) templ.Component {
 			var templ_7745c5c3_Var2 string
 			templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(p.content)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/textbox/textbox.templ`, Line: 20, Col: 17}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/textbox/textbox.templ`, Line: 36, Col: 17}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var2))
 			if templ_7745c5c3_Err != nil {

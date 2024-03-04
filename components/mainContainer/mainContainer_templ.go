@@ -12,13 +12,7 @@ import "bytes"
 
 import (
 	"htmx/components/textbox"
-	"net/http"
 )
-
-func init() {
-	http.Handle("/edit", templ.Handler(textbox.New("content", true)))
-	http.Handle("/submit", templ.Handler(textbox.New("content", false)))
-}
 
 func MainContainer() templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
