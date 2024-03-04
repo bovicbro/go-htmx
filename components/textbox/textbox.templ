@@ -1,0 +1,25 @@
+package textbox
+
+type Props struct {
+	content string
+	editing bool
+}
+
+func New(content string, editing bool) templ.Component {
+	props := Props{content: content, editing: editing}
+	return textbox(props)
+}
+
+templ textbox(p Props) {
+	<div hx-swap="outerHTML" hx-target="this">
+		if p.editing {
+			<form hx-post="/submit">
+				<input name="input" autofocus/>
+				<button type="submit">Submit</button>
+			</form>
+		} else {
+			<p>{ p.content }</p>
+			<button hx-get="/edit">Edit</button>
+		}
+	</div>
+}

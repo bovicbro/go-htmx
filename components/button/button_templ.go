@@ -10,19 +10,31 @@ import "context"
 import "io"
 import "bytes"
 
-import "net/http"
+import (
+	"fmt"
+	"math/rand"
+	"net/http"
+	"time"
+)
 
 type Props struct {
 	buttonText string
 	callUrl    string
+	id         string
 }
 
-func CreateButton(buttonText string, callUrl string) templ.Component {
-	return button(Props{buttonText: buttonText, callUrl: callUrl})
+func CreateButton(buttonText string) templ.Component {
+	id := RandStringRunes(20)
+	callUrl := fmt.Sprintf("/%s", id)
+	props := Props{buttonText: buttonText, callUrl: callUrl, id: id}
+	bindUrl(props)
+	return button(props)
 }
 
-func init() {
-	http.Handle("/thingy", templ.Handler(button(Props{buttonText: "hellp", callUrl: "/thingy"})))
+// How to bind to a url in a decent way? UUID?
+func bindUrl(props Props) {
+	props.buttonText = "Changed"
+	http.Handle(fmt.Sprintf("/%s", props.id), templ.Handler(button(props)))
 }
 
 func button(props Props) templ.Component {
@@ -53,7 +65,7 @@ func button(props Props) templ.Component {
 		var templ_7745c5c3_Var2 string
 		templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(props.buttonText)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/button/button.templ`, Line: 19, Col: 20}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/button/button.templ`, Line: 31, Col: 20}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var2))
 		if templ_7745c5c3_Err != nil {
@@ -68,4 +80,19 @@ func button(props Props) templ.Component {
 		}
 		return templ_7745c5c3_Err
 	})
+}
+
+// ############## RANDOM STRING GENERATOR ##################
+func init() {
+	rand.Seed(time.Now().UnixNano())
+}
+
+var letterRunes = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
+
+func RandStringRunes(n int) string {
+	b := make([]rune, n)
+	for i := range b {
+		b[i] = letterRunes[rand.Intn(len(letterRunes))]
+	}
+	return string(b)
 }

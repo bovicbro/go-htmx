@@ -1,27 +1,28 @@
 package mainContainer
 
-import "htmx/components/button"
+import (
+	"htmx/components/textbox"
+	"net/http"
+)
+
+func init() {
+	http.Handle("/edit", templ.Handler(textbox.New("content", true)))
+	http.Handle("/submit", templ.Handler(textbox.New("content", false)))
+}
 
 templ MainContainer() {
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title></title>
-  <link href="css/style.css" rel="stylesheet" />
-  <script src="https://unpkg.com/htmx.org@1.9.10"
-    integrity="sha384-D1Kt99CQMDuVetoL1lrYwg5t+9QdHe7NLX/SoJYkXDFfX37iInKRy5xLSi8nO7UC"
-    crossorigin="anonymous"></script>
-</head>
-
-<body>
-  <p>
-    This is a button, do with it as you please!
-  </p>
-  @button.CreateButton("Click Me!", "/thingy")
-</body>
-
-</html>
+	<!DOCTYPE html>
+	<html lang="en">
+		<head>
+			<meta charset="UTF-8"/>
+			<meta name="viewport" content="width=device-width, initial-scale=1"/>
+			<title></title>
+			<link href="css/style.css" rel="stylesheet"/>
+			<script src="https://unpkg.com/htmx.org@1.9.10" integrity="sha384-D1Kt99CQMDuVetoL1lrYwg5t+9QdHe7NLX/SoJYkXDFfX37iInKRy5xLSi8nO7UC" crossorigin="anonymous"></script>
+		</head>
+		<body>
+			@textbox.New("content", false)
+			// @button.CreateButton("Click Me!")
+		</body>
+	</html>
 }
