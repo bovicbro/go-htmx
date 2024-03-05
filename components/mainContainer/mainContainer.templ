@@ -1,22 +1,30 @@
 package mainContainer
 
 import (
-	"htmx/components/textbox"
+"htmx/components/textbox"
 )
 
-templ MainContainer() {
-	<!DOCTYPE html>
-	<html lang="en">
-		<head>
-			<meta charset="UTF-8"/>
-			<meta name="viewport" content="width=device-width, initial-scale=1"/>
-			<title></title>
-			<link href="css/style.css" rel="stylesheet"/>
-			<script src="https://unpkg.com/htmx.org@1.9.10" integrity="sha384-D1Kt99CQMDuVetoL1lrYwg5t+9QdHe7NLX/SoJYkXDFfX37iInKRy5xLSi8nO7UC" crossorigin="anonymous"></script>
-		</head>
-		<body>
-			@textbox.New("content", false)
-			// @button.CreateButton("Click Me!")
-		</body>
-	</html>
+func New() templ.Component {
+tb := textbox.New("content", false, "/smt")
+return mainContainer(&tb)
+}
+
+templ mainContainer(tb *textbox.TextBox) {
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title></title>
+  <link href="css/style.css" rel="stylesheet" />
+  <script src="/assets/htmx.min.js"></script>
+</head>
+
+<body>
+  @tb.CreateCmp()
+  // @button.CreateButton("Click Me!")
+</body>
+
+</html>
 }

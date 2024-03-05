@@ -3,39 +3,57 @@ package textbox
 import "net/http"
 
 type Props struct {
-	content string
-	editing bool
+content string
+editing bool
+url string
 }
 
-func init() {
-	http.Handle("/edit", templ.Handler(New("content", true)))
-	http.HandleFunc("/submit", postHandler)
+type TextBox struct {
+cmp func(p Props) templ.Component
+props Props
 }
 
-func New(content string, editing bool) templ.Component {
-	props := Props{content: content, editing: editing}
-	return textbox(props)
+func (t TextBox) CreateCmp() templ.Component {
+comp := t.cmp(t.props)
+return comp
 }
 
-func postHandler(w http.ResponseWriter, r *http.Request) {
-	if r.Method == http.MethodPost {
-		r.ParseForm()
-		if r.Form.Has("input") {
-			templ.Handler(New(r.Form.Get("input"), false)).Component.Render(context.Background(), w)
-		}
-	}
+func New(content string, editing bool, url string) TextBox {
+p := Props{content: content, editing: editing, url: url}
+cmp := textbox
+tb := TextBox{cmp: cmp, props: p}
+http.HandleFunc(tb.props.url, boundHandler(&tb))
+return tb
+}
+
+func boundHandler(tb *TextBox) http.HandlerFunc {
+handler := func(w http.ResponseWriter, r *http.Request) {
+if r.Method == http.MethodPost {
+r.ParseForm()
+if r.Form.Has("input") {
+tb.props.content = r.Form.Get("input")
+tb.props.editing = false
+templ.Handler(tb.CreateCmp()).Component.Render(context.Background(), w)
+}
+}
+if r.Method == http.MethodGet {
+tb.props.editing = true
+templ.Handler(tb.CreateCmp()).Component.Render(context.Background(), w)
+}
+}
+return handler
 }
 
 templ textbox(p Props) {
-	<div hx-swap="outerHTML" hx-target="this">
-		if p.editing {
-			<form hx-post="/submit">
-				<input name="input" autofocus/>
-				<button type="submit">Submit</button>
-			</form>
-		} else {
-			<p>{ p.content }</p>
-			<button hx-get="/edit">Edit</button>
-		}
-	</div>
+<div hx-swap="outerHTML" hx-target="this">
+  if p.editing {
+  <form hx-post={ p.url }>
+    <input name="input" autofocus value={ p.content } />
+    <button type="submit">Submit</button>
+  </form>
+  } else {
+  <p>{ p.content }</p>
+  <button hx-get={ p.url }>Edit</button>
+  }
+</div>
 }

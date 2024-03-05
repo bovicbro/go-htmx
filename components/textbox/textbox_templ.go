@@ -15,25 +15,43 @@ import "net/http"
 type Props struct {
 	content string
 	editing bool
+	url     string
 }
 
-func init() {
-	http.Handle("/edit", templ.Handler(New("content", true)))
-	http.HandleFunc("/submit", postHandler)
+type TextBox struct {
+	cmp   func(p Props) templ.Component
+	props Props
 }
 
-func New(content string, editing bool) templ.Component {
-	props := Props{content: content, editing: editing}
-	return textbox(props)
+func (t TextBox) CreateCmp() templ.Component {
+	comp := t.cmp(t.props)
+	return comp
 }
 
-func postHandler(w http.ResponseWriter, r *http.Request) {
-	if r.Method == http.MethodPost {
-		r.ParseForm()
-		if r.Form.Has("input") {
-			templ.Handler(New(r.Form.Get("input"), false)).Component.Render(context.Background(), w)
+func New(content string, editing bool, url string) TextBox {
+	p := Props{content: content, editing: editing, url: url}
+	cmp := textbox
+	tb := TextBox{cmp: cmp, props: p}
+	http.HandleFunc(tb.props.url, boundHandler(&tb))
+	return tb
+}
+
+func boundHandler(tb *TextBox) http.HandlerFunc {
+	handler := func(w http.ResponseWriter, r *http.Request) {
+		if r.Method == http.MethodPost {
+			r.ParseForm()
+			if r.Form.Has("input") {
+				tb.props.content = r.Form.Get("input")
+				tb.props.editing = false
+				templ.Handler(tb.CreateCmp()).Component.Render(context.Background(), w)
+			}
+		}
+		if r.Method == http.MethodGet {
+			tb.props.editing = true
+			templ.Handler(tb.CreateCmp()).Component.Render(context.Background(), w)
 		}
 	}
+	return handler
 }
 
 func textbox(p Props) templ.Component {
@@ -54,7 +72,23 @@ func textbox(p Props) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		if p.editing {
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<form hx-post=\"/submit\"><input name=\"input\" autofocus> <button type=\"submit\">Submit</button></form>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<form hx-post=\"")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(p.url))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\"><input name=\"input\" autofocus value=\"")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(p.content))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\"> <button type=\"submit\">Submit</button></form>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -66,13 +100,21 @@ func textbox(p Props) templ.Component {
 			var templ_7745c5c3_Var2 string
 			templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(p.content)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/textbox/textbox.templ`, Line: 36, Col: 17}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/textbox/textbox.templ`, Line: 54, Col: 16}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var2))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</p><button hx-get=\"/edit\">Edit</button>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</p><button hx-get=\"")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(p.url))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\">Edit</button>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
