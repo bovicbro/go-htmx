@@ -10,50 +10,6 @@ import "context"
 import "io"
 import "bytes"
 
-import "net/http"
-
-type Props struct {
-	content string
-	editing bool
-	url     string
-}
-
-type TextBox struct {
-	cmp   func(p Props) templ.Component
-	props Props
-}
-
-func (t TextBox) CreateCmp() templ.Component {
-	comp := t.cmp(t.props)
-	return comp
-}
-
-func New(content string, editing bool, url string) TextBox {
-	p := Props{content: content, editing: editing, url: url}
-	cmp := textbox
-	tb := TextBox{cmp: cmp, props: p}
-	http.HandleFunc(tb.props.url, boundHandler(&tb))
-	return tb
-}
-
-func boundHandler(tb *TextBox) http.HandlerFunc {
-	handler := func(w http.ResponseWriter, r *http.Request) {
-		if r.Method == http.MethodPost {
-			r.ParseForm()
-			if r.Form.Has("input") {
-				tb.props.content = r.Form.Get("input")
-				tb.props.editing = false
-				templ.Handler(tb.CreateCmp()).Component.Render(context.Background(), w)
-			}
-		}
-		if r.Method == http.MethodGet {
-			tb.props.editing = true
-			templ.Handler(tb.CreateCmp()).Component.Render(context.Background(), w)
-		}
-	}
-	return handler
-}
-
 func textbox(p Props) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
@@ -88,25 +44,25 @@ func textbox(p Props) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\"> <button type=\"submit\">Submit</button></form>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\"> <button type=\"submit\">✅</button></form>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		} else {
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<p>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var2 string
 			templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(p.content)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/textbox/textbox.templ`, Line: 54, Col: 16}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/textbox/textbox.templ`, Line: 11, Col: 15}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var2))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</p><button hx-get=\"")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" <button hx-get=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -114,7 +70,7 @@ func textbox(p Props) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\">Edit</button>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\">✏️</button></div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

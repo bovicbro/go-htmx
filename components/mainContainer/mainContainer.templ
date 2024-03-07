@@ -6,10 +6,11 @@ import (
 
 func New() templ.Component {
 tb := textbox.New("content", false, "/smt")
-return mainContainer(&tb)
+tb2 := textbox.New("content", false, "/smth")
+return mainContainer(&tb, &tb2)
 }
 
-templ mainContainer(tb *textbox.TextBox) {
+templ mainContainer(tb *textbox.TextBox, tb2 *textbox.TextBox) {
 <!DOCTYPE html>
 <html lang="en">
 
@@ -17,13 +18,13 @@ templ mainContainer(tb *textbox.TextBox) {
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title></title>
-  <link href="css/style.css" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/style.css" />
   <script src="/assets/htmx.min.js"></script>
 </head>
 
 <body>
   @tb.CreateCmp()
-  // @button.CreateButton("Click Me!")
+  @tb2.CreateCmp()
 </body>
 
 </html>
