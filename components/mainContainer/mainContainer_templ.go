@@ -15,8 +15,14 @@ import (
 )
 
 func New() templ.Component {
-	tb := textbox.New("content", false, "/smt")
-	tb2 := textbox.New("content", false, "/smth")
+	intro := `Updates element with ajax calls. All state is transfered as html. All ui features are part of the response
+from the server, nothing is defined in js in the client.
+
+You can change this text by clicking the pen button. `
+
+	tb := textbox.New(intro, false, "/smt")
+	tb2 := textbox.New("This is another component", false, "/smth")
+
 	return mainContainer(&tb, &tb2)
 }
 
@@ -33,7 +39,7 @@ func mainContainer(tb *textbox.TextBox, tb2 *textbox.TextBox) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<!doctype html><html lang=\"en\"><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"><title></title><link rel=\"stylesheet\" href=\"assets/style.css\"><script src=\"/assets/htmx.min.js\"></script></head><body>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<!doctype html><html lang=\"en\"><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"><title>Built with htmx</title><link rel=\"stylesheet\" href=\"assets/style.css\"><script src=\"/assets/htmx.min.js\"></script></head><body><h1>Built with <a href=\"https://htmx.org/\">htmx!</a></h1>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

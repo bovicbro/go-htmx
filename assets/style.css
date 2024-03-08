@@ -1,4 +1,6 @@
 body {
-  background-color: cyan;
+  background-color: #b7e5e5ff;
   margin: 2em;
+  font-family: "sans-serif";
+  max-width: 40em;
 }
