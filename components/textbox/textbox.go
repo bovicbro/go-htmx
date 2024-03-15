@@ -12,6 +12,7 @@ type Props struct {
 	editing bool
 	url     string
 }
+
 type TextBox struct {
 	cmp   func(p Props) templ.Component
 	props Props

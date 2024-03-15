@@ -15,18 +15,16 @@ import (
 )
 
 func New() templ.Component {
-	intro := `Updates element with ajax calls. All state is transfered as html. All ui features are part of the response
-from the server, nothing is defined in js in the client.
-
-You can change this text by clicking the pen button. `
+	intro := "Hello this is intro"
 
 	tb := textbox.New(intro, false, "/smt")
 	tb2 := textbox.New("This is another component", false, "/smth")
+	tb3 := textbox.New(intro, false, "/smtasdf")
 
-	return mainContainer(&tb, &tb2)
+	return mainContainer(&tb, &tb2, &tb3)
 }
 
-func mainContainer(tb *textbox.TextBox, tb2 *textbox.TextBox) templ.Component {
+func mainContainer(tb *textbox.TextBox, tb2 *textbox.TextBox, tb3 *textbox.TextBox) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
 		if !templ_7745c5c3_IsBuffer {
@@ -39,7 +37,7 @@ func mainContainer(tb *textbox.TextBox, tb2 *textbox.TextBox) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<!doctype html><html lang=\"en\"><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"><title>Built with htmx</title><link rel=\"stylesheet\" href=\"assets/style.css\"><script src=\"/assets/htmx.min.js\"></script></head><body><h1>Built with <a href=\"https://htmx.org/\">htmx!</a></h1>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<!doctype html><html lang=\"en\"><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"><title>Built with htmx</title><link rel=\"stylesheet\" href=\"assets/style.css\"><script src=\"/assets/htmx.min.js\"></script><script src=\"/assets/darkmode.js\"></script></head><body class=\"light\" id=\"mainBody\"><h1>Built with <a href=\"https://htmx.org/\">htmx!</a></h1>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -51,7 +49,39 @@ func mainContainer(tb *textbox.TextBox, tb2 *textbox.TextBox) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
+		templ_7745c5c3_Err = tb3.CreateCmp().Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = theme().Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</body></html>")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		if !templ_7745c5c3_IsBuffer {
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteTo(templ_7745c5c3_W)
+		}
+		return templ_7745c5c3_Err
+	})
+}
+
+func theme() templ.Component {
+	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
+		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
+		if !templ_7745c5c3_IsBuffer {
+			templ_7745c5c3_Buffer = templ.GetBuffer()
+			defer templ.ReleaseBuffer(templ_7745c5c3_Buffer)
+		}
+		ctx = templ.InitializeContext(ctx)
+		templ_7745c5c3_Var2 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var2 == nil {
+			templ_7745c5c3_Var2 = templ.NopComponent
+		}
+		ctx = templ.ClearChildren(ctx)
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<button onclick=\"darkMode(&#39;mainBody&#39;)\">Click me</button>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

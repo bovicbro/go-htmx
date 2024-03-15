@@ -1,12 +1,37 @@
+:root {
+  --bg: #44bbbbff;
+  --bg-dark: #2b4033ff;
+  --main: #358;
+  --font-light: #221f1c;
+  --font-dark: #ddd;
+}
+
 body {
-  background-color: #b7e5e5ff;
   margin: 2em;
   font-family: "sans-serif";
   max-width: 40em;
+  transition: color 0.5s ease;
+  -webkit-transition: background-color 500ms ease;
+  -ms-transition: background-color 500ms ease;
+  transition: background-color 500ms ease;
+}
+
+.light {
+  background-color: var(--bg);
+  color: var(--font-light);
+}
+
+.dark {
+  background-color: var(--bg-dark);
+  color: var(--font-dark);
 }
 
 textarea {
   width: 36em;
   height: 10em;
   font-size: 1rem;
+}
+
+body {
+  background: var();
 }

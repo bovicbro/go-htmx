@@ -4,7 +4,7 @@ templ textbox(p Props) {
 <div hx-swap="outerHTML" hx-target="this">
   if p.editing {
   <form hx-post={ p.url }>
-    <textarea name="input" autofocus>{ p.content }</textarea>
+    <input name="input" autofocus value={ p.content } />
     <button type="submit">✅</button>
   </form>
   } else {
