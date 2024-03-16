@@ -28,16 +28,12 @@ templ mainContainer(tb *textbox.TextBox, tb2 *textbox.TextBox, tb3 *textbox.Text
 </head>
 
 <body class="light" id="mainBody">
+  <button onclick="darkMode('mainBody')">Change theme</button>
   <h1>Built with <a href="https://htmx.org/">htmx!</a></h1>
   @tb.CreateCmp()
   @tb2.CreateCmp()
   @tb3.CreateCmp()
-  @theme()
 </body>
 
 </html>
-}
-
-templ theme() {
-<button onclick="darkMode('mainBody')">Click me</button>
 }

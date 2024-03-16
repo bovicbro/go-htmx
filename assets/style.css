@@ -1,9 +1,10 @@
 :root {
-  --bg: #44bbbbff;
-  --bg-dark: #2b4033ff;
+  --bg: #b5e8e8ff;
+  --bg-dark: #222f;
   --main: #358;
   --font-light: #221f1c;
-  --font-dark: #ddd;
+  --font-dark: #f7f7f7ff;
+  --link-dark: #66ffff
 }
 
 body {
@@ -24,6 +25,10 @@ body {
 .dark {
   background-color: var(--bg-dark);
   color: var(--font-dark);
+}
+
+.dark a {
+  color: var(--link-dark)
 }
 
 textarea {
