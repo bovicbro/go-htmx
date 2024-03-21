@@ -1,39 +1,36 @@
 package mainContainer
 
 import (
-"htmx/components/textbox"
+	"htmx/components/textbox"
 )
 
 func New() templ.Component {
-intro := "Hello this is intro"
+	intro := "Hello this is intro"
 
-tb := textbox.New(intro, false, "/smt")
-tb2 := textbox.New("This is another component", false, "/smth")
-tb3 := textbox.New(intro, false, "/smtasdf")
+	tb := textbox.New(intro, false, "/smt")
+	tb2 := textbox.New("This is another component", false, "/smth")
+	tb3 := textbox.New(intro, false, "/smtasdf")
 
-return mainContainer(&tb, &tb2, &tb3)
+	return mainContainer(&tb, &tb2, &tb3)
 }
 
 templ mainContainer(tb *textbox.TextBox, tb2 *textbox.TextBox, tb3 *textbox.TextBox) {
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Built with htmx</title>
-  <link rel="stylesheet" href="assets/style.css" />
-  <script src="/assets/htmx.min.js"></script>
-  <script src="/assets/darkmode.js"></script>
-</head>
-
-<body class="light" id="mainBody">
-  <button onclick="darkMode('mainBody')">Change theme</button>
-  <h1>Built with <a href="https://htmx.org/">htmx!</a></h1>
-  @tb.CreateCmp()
-  @tb2.CreateCmp()
-  @tb3.CreateCmp()
-</body>
-
-</html>
+	<!DOCTYPE html>
+	<html lang="en">
+		<head>
+			<meta charset="UTF-8"/>
+			<meta name="viewport" content="width=device-width, initial-scale=1"/>
+			<title>Built with htmx</title>
+			<link rel="stylesheet" href="assets/style.css"/>
+			<script src="/assets/htmx.min.js"></script>
+			<script src="/assets/darkmode.js"></script>
+		</head>
+		<body class="light" id="mainBody">
+			<button onclick="darkMode('mainBody')">Change theme</button>
+			<h1>Built with <a href="https://htmx.org/">htmx!</a></h1>
+			@tb.CreateCmp()
+			@tb2.CreateCmp()
+			@tb3.CreateCmp()
+		</body>
+	</html>
 }
