@@ -10,21 +10,7 @@ import "context"
 import "io"
 import "bytes"
 
-import (
-	"htmx/components/textbox"
-)
-
-func New() templ.Component {
-	intro := "Hello this is intro"
-
-	tb := textbox.New(intro, false, "/smt")
-	tb2 := textbox.New("This is another component", false, "/smth")
-	tb3 := textbox.New(intro, false, "/smtasdf")
-
-	return mainContainer(&tb, &tb2, &tb3)
-}
-
-func mainContainer(tb *textbox.TextBox, tb2 *textbox.TextBox, tb3 *textbox.TextBox) templ.Component {
+func mainContainer(p Props) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
 		if !templ_7745c5c3_IsBuffer {
@@ -41,19 +27,13 @@ func mainContainer(tb *textbox.TextBox, tb2 *textbox.TextBox, tb3 *textbox.TextB
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = tb.CreateCmp().Render(ctx, templ_7745c5c3_Buffer)
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
+		for _, item := range p.tbs {
+			templ_7745c5c3_Err = item.CreateCmp().Render(ctx, templ_7745c5c3_Buffer)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
 		}
-		templ_7745c5c3_Err = tb2.CreateCmp().Render(ctx, templ_7745c5c3_Buffer)
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		templ_7745c5c3_Err = tb3.CreateCmp().Render(ctx, templ_7745c5c3_Buffer)
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</body></html>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<form><button hx-post=\"/addItem\" hx-swap=\"innerHTML\" hx-target=\"#mainBody\">Add thing</button></form></body></html>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
