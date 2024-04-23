@@ -10,7 +10,7 @@ import (
 )
 
 type Props struct {
-	tbs []textbox.TextBox
+	tbs []*textbox.TextBox
 	url string
 }
 
@@ -25,7 +25,7 @@ func (t MainContainer) CreateCmp() templ.Component {
 }
 
 func New() *MainContainer {
-	tbs := []textbox.TextBox{
+	tbs := []*textbox.TextBox{
 		textbox.New("This is another component", false, "/1"),
 		textbox.New("This is another component", false, "/2"),
 		textbox.New("This is another component", false, "/3"),
@@ -40,9 +40,9 @@ func New() *MainContainer {
 
 func boundHandler(mc *MainContainer) http.HandlerFunc {
 	handler := func(w http.ResponseWriter, r *http.Request) {
-		mc.props.tbs = append(mc.props.tbs, textbox.New("asdf", false, fmt.Sprintf("/%d", len(mc.props.tbs)+1)))
+		thing := append(mc.props.tbs, textbox.New("asdf", false, fmt.Sprintf("/%d", len(mc.props.tbs)+1)))
+		mc.props.tbs = thing
 		mc.CreateCmp().Render(context.Background(), w)
-		println("adding")
 	}
 	return handler
 }

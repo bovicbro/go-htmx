@@ -23,12 +23,12 @@ func (t TextBox) CreateCmp() templ.Component {
 	return comp
 }
 
-func New(content string, editing bool, url string) TextBox {
+func New(content string, editing bool, url string) *TextBox {
 	p := Props{content: content, editing: editing, url: url}
 	cmp := textbox
 	tb := TextBox{cmp: cmp, props: p}
 	http.HandleFunc(tb.props.url, boundHandler(&tb))
-	return tb
+	return &tb
 }
 
 func boundHandler(tb *TextBox) http.HandlerFunc {
