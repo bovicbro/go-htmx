@@ -2,6 +2,7 @@ package mainContainer
 
 import (
 	"context"
+	"fmt"
 	"htmx/components/textbox"
 	"net/http"
 
@@ -23,24 +24,25 @@ func (t MainContainer) CreateCmp() templ.Component {
 	return comp
 }
 
-func New() MainContainer {
+func New() *MainContainer {
 	tbs := []textbox.TextBox{
 		textbox.New("This is another component", false, "/1"),
 		textbox.New("This is another component", false, "/2"),
 		textbox.New("This is another component", false, "/3"),
-		textbox.New("This is another component", false, "/4"),
+		textbox.New("sdfThis is another component", false, "/4"),
 	}
-	p := Props{tbs, "/mc"}
+	p := Props{tbs, "/addItem"}
 	cmp := mainContainer
 	mc := MainContainer{cmp: cmp, props: p}
-	// http.HandleFunc(mc.props.url, boundHandler(&tb))
-	return mc
+	http.HandleFunc(mc.props.url, boundHandler(&mc))
+	return &mc
 }
 
 func boundHandler(mc *MainContainer) http.HandlerFunc {
 	handler := func(w http.ResponseWriter, r *http.Request) {
-		mc.props.tbs = append(mc.props.tbs, textbox.New("", false, "/thing"))
+		mc.props.tbs = append(mc.props.tbs, textbox.New("asdf", false, fmt.Sprintf("/%d", len(mc.props.tbs)+1)))
 		mc.CreateCmp().Render(context.Background(), w)
+		println("adding")
 	}
 	return handler
 }

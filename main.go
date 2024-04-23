@@ -9,7 +9,8 @@ import (
 
 func main() {
 	mc := mainContainer.New()
-	http.Handle("/", templ.Handler(mc.CreateCmp()))
+	thing := templ.Handler(mc.CreateCmp())
+	http.Handle("/", thing)
 	http.Handle("/assets/", http.StripPrefix("/assets/", http.FileServer(http.Dir("assets"))))
 	fmt.Println("Listening on 3000")
 	http.ListenAndServe(":3000", nil)
