@@ -1,7 +1,7 @@
 package textbox
 
 templ textbox(p Props) {
-<div hx-swap="outerHTML" hx-target="this">
+<div hx-swap="outerHTML" hx-target="this" class="textbox">
   if p.editing {
   <form hx-post={ p.url }>
     <input name="input" autofocus value={ p.content } />

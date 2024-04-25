@@ -23,7 +23,7 @@ func mainContainer(p Props) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<!doctype html><html lang=\"en\"><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"><title>Built with htmx</title><link rel=\"stylesheet\" href=\"assets/style.css\"><script src=\"/assets/htmx.min.js\"></script><script src=\"/assets/darkmode.js\" defer></script></head><body class=\"light\" id=\"mainBody\"><button onclick=\"darkMode(&#39;mainBody&#39;)\">Change theme</button><h1>Built with <a href=\"https://htmx.org/\">htmx!</a></h1>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<!doctype html><html lang=\"en\"><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"><title>Built with htmx</title><link rel=\"stylesheet\" href=\"assets/style.css\"><script src=\"/assets/htmx.min.js\"></script><script src=\"/assets/darkmode.js\" defer></script></head><body class=\"dark\" id=\"mainBody\"><button onclick=\"darkMode(&#39;mainBody&#39;)\">Change theme</button><h1>Built with <a href=\"https://htmx.org/\">htmx!</a></h1>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

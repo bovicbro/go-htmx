@@ -40,3 +40,7 @@ textarea {
 body {
   background: var();
 }
+
+.textbox {
+  margin: 0.5em 0;
+}

@@ -43,10 +43,27 @@ func boundHandler(mc *MainContainer) http.HandlerFunc {
 
 func createMockData() []*textbox.TextBox {
 	tbs := []*textbox.TextBox{
-		textbox.New("This is another ", true, "/1"),
-		textbox.New("This is another component", false, "/2"),
-		textbox.New("This is another component", false, "/3"),
-		textbox.New("This is another component", false, "/4"),
+		textbox.New("Some text", false, "/1"),
+		textbox.New("Some text", false, "/2"),
+		textbox.New("Some text", false, "/3"),
+		textbox.New("Some text", false, "/4"),
+		textbox.New("Some text", false, "/5"),
+		textbox.New("Some text", false, "/6"),
+		textbox.New("Some text", false, "/7"),
+		textbox.New("Some text", false, "/8"),
+		textbox.New("Some text", false, "/9"),
+		textbox.New("Some text", false, "/10"),
+		textbox.New("Some text", false, "/11"),
+		textbox.New("Some text", false, "/12"),
+		textbox.New("Some text", false, "/13"),
+		textbox.New("Some text", false, "/14"),
+		textbox.New("Some text", false, "/15"),
+		textbox.New("Some text", false, "/16"),
+		textbox.New("Some text", false, "/17"),
+		textbox.New("Some text", false, "/18"),
+		textbox.New("Some text", false, "/19"),
+		textbox.New("Some text", false, "/20"),
+		textbox.New("Some text", false, "/21"),
 	}
 	return tbs
 }
