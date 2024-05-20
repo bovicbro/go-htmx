@@ -9,8 +9,8 @@ import (
 
 type Props struct {
 	content string
-	editing bool
 	url     string
+	editing bool
 }
 
 type TextBox struct {
